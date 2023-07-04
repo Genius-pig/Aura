@@ -84,3 +84,7 @@ Plugins/Developer/RiderLink/*
 # .vsconfig
 
 .vsconfig
+
+# .sln.DotSettings.user
+
+*.sln.DotSettings.user
