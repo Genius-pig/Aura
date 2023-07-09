@@ -8,6 +8,8 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
+class AAuraAIController;
+class UBehaviorTree;
 enum class ECharacterClass : uint8;
 class UWidgetComponent;
 /**
@@ -24,6 +26,8 @@ public:
 	virtual void UnHighLightActor() override;
 
 	virtual int32 GetPlayerLevel() override;
+
+	virtual void PossessedBy(AController* NewController) override;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributesChangedSignature OnHealthChanged;
@@ -50,6 +54,11 @@ protected:
 
 	virtual void InitializeDefaultAttributes() override;
 
+	UPROPERTY(EditAnywhere, Category="AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<AAuraAIController> AuraAIController;
 private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Character Class Defaults", meta=(AllowPrivateAccess))

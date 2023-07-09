@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 
 AAuraEffectActor::AAuraEffectActor()
 {
@@ -21,6 +22,7 @@ void AAuraEffectActor::BeginPlay()
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
+	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies) return;
 	UAbilitySystemComponent* TargetASC =  UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if(TargetASC == nullptr) return;
 
@@ -28,66 +30,27 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel, EffectContextHandle);
-	const FActiveGameplayEffectHandle ActiveGameplayEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
-	const bool IsInfinite =  EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
+	FGameplayTagContainer Container;
+	EffectSpecHandle.Data->GetAllAssetTags(Container);
 
-	if(IsInfinite)
+	const bool bIsFireAreaEffect = Container.HasTagExact(FAuraGameplayTags::Get().Effects_FireArea);
+
+	if(!bIsFireAreaEffect)
 	{
-		ActiveEffectHandles.Add(ActiveGameplayEffectHandle, TargetASC);
+		Destroy();
 	}
 }
 
-void AAuraEffectActor::OnOverlap(AActor* TargetActor)
+void AAuraEffectActor::OnAreaEndOverlap(AActor* TargetActor)
 {
-	if(InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
-	{
-		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
-	}
-	if(DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
-	{
-		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
-	}
-	if(InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
-	{
-		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
-	}
-}
-
-void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
-{
-	if(InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
-	{
-		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
-	}
-	if(DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
-	{
-		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
-	}
-	if(InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
-	{
-		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
-	}
-
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	
-	if(InFiniteRemovePolicy == EEffectRemovePolicy::RemoveOnEndOverlap)
-	{
-		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
-		if(!IsValid(TargetASC)) return;
-
-		for(const auto HandPair : ActiveEffectHandles)
-		{
-			if(TargetASC == HandPair.Value)
-			{
-				TargetASC->RemoveActiveGameplayEffect(HandPair.Key, 1);
-				ActiveEffectHandles.Remove(HandPair.Key);
-			}
-			if(ActiveEffectHandles.IsEmpty())
-			{
-				break;
-			}
-		}
-	}
+	if(!IsValid(TargetASC)) return;
+	FGameplayTagContainer Container;
+	Container.AddTag(FAuraGameplayTags::Get().Effects_FireArea);
+	TargetASC->RemoveActiveEffectsWithTags(Container);
 }
 
 

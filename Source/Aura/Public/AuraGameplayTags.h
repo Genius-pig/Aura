@@ -49,8 +49,10 @@ public:
 	FGameplayTag Attributes_Resistance_Lightning;
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
-	
 
+	// Effect actor
+	FGameplayTag Effects_FireArea;
+	
 	FGameplayTag Effects_HitResult;
 private:
 	
