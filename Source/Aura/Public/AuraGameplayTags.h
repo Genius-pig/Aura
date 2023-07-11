@@ -52,7 +52,6 @@ public:
 
 	// Effect actor
 	FGameplayTag Effects_FireArea;
-	
 	FGameplayTag Effects_HitResult;
 private:
 	

@@ -7,6 +7,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AI/AuraAIController.h"
 #include "Aura/Aura.h"
 #include "BehaviorTree/BehaviorTree.h"
@@ -67,6 +68,9 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 
 	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	AuraAIController->RunBehaviorTree(BehaviorTree);
+
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterType!= ECharacterClass::Warrior);
 }
 
 void AAuraEnemy::Die(const FVector& DeathImpulse)
@@ -77,7 +81,9 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 
 void AAuraEnemy::HitTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
-	
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void AAuraEnemy::BeginPlay()

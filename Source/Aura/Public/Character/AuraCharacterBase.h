@@ -57,6 +57,9 @@ protected:
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
 	void Dissolve();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float BaseWalkSpeed = 600.f;
 public:
 	UAttributeSet* GetAttributeSet() const
 	{
