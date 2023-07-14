@@ -72,6 +72,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Resistance to Physical damage")
 	);
 
+	// abilities
+	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Attack"),
+		FString("Attack Ability Tag")
+	);
+
+	// effect
 	GameplayTags.Effects_HitResult = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitResult"), FString("Hit result of effects"));
 	GameplayTags.Effects_FireArea = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.FireArea"), FString("Effects FireArea"));

@@ -6,6 +6,7 @@
 #include "AuraAbilityTypes.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Game/AuraGameModeBase.h"
+#include "Iteraction/CombatInterface.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerState.h"
@@ -74,6 +75,27 @@ UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObj
 	const AAuraGameModeBase* GameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if(GameModeBase == nullptr) return nullptr;
 	return GameModeBase->CharacterClassInfo;
+}
+
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC,
+	ECharacterClass CharacterClass)
+{
+	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+	if (CharacterClassInfo == nullptr) return;
+	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+	const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
+	{
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
+		{
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+			ASC->GiveAbility(AbilitySpec);
+		}
+	}
 }
 
 bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)

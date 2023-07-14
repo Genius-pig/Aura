@@ -19,17 +19,26 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 public:
 
+	/*
+     * Widget Controller
+     */
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|WidgetController")
 	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContext);
 
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|WidgetController")
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContext);
 
+
+	/*
+	 * Character defaults ability component
+	 */
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
 
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
 
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass);
 
 	/*
 	 * Aura Effect Getter

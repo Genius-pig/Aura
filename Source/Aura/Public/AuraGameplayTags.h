@@ -50,6 +50,9 @@ public:
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
 
+	// abilities
+	FGameplayTag Abilities_Attack;
+
 	// Effect actor
 	FGameplayTag Effects_FireArea;
 	FGameplayTag Effects_HitResult;

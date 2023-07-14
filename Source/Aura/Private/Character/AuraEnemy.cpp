@@ -34,6 +34,8 @@ AAuraEnemy::AAuraEnemy()
 	bUseControllerRotationYaw = false;
 
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+
+	BaseWalkSpeed = 250.f;
 }
 
 void AAuraEnemy::HighLightActor()
@@ -89,10 +91,11 @@ void AAuraEnemy::HitTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 	if(HasAuthority())
 	{
-		AddCharacterAbilities();
+		UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterType);	
 	}
 	if(UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
