@@ -66,11 +66,15 @@ public:
 		return AttributeSet;
 	}
 
-	virtual FVector GetCombatSocketLocation() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
 	virtual void Die(const FVector& DeathImpulse) override;
+
+	virtual AActor* GetAvatar_Implementation() override;
+
+	virtual bool IsDead_Implementation() const override;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
@@ -100,4 +104,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	bool bDead = false;
 };
