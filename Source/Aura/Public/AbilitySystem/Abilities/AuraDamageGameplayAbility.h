@@ -27,6 +27,10 @@ public:
 		bool bOverridePitch = false,
 		float PitchOverride = 0.f) const;
 	
+
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
+	
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;

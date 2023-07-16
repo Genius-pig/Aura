@@ -66,6 +66,7 @@ public:
 		return AttributeSet;
 	}
 
+	// Combat interface
 	virtual FVector GetCombatSocketLocation_Implementation() override;
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
@@ -75,6 +76,12 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 
 	virtual bool IsDead_Implementation() const override;
+
+	virtual TArray<FTaggedMontage> GetAttackMontage_Implementation() override;
+	// end Combat interface
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	TArray<FTaggedMontage> AttackMontage;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);

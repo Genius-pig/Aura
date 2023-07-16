@@ -7,7 +7,6 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
-#include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 
 //FAuraDamageStatics is used for getting Attribute value
@@ -96,6 +95,14 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		DamageTypeValue *= ( 100.f - TargetFireResistance ) / 100.f;
 		Damage += DamageTypeValue;
 	}
+	else if (SourceTagContainer->HasTagExact(FAuraGameplayTags::Get().Damage_Physical))
+	{
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage_Physical);
+		float TargetPhysicalResistance = 0.f;
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().PhysicalResistanceDef, EvaluateParameters, TargetPhysicalResistance);
+		DamageTypeValue *= ( 100.f - TargetPhysicalResistance ) / 100.f;
+		Damage += DamageTypeValue;
+	} 
 
 	//get Aura Effect Context handle
 	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();

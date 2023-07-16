@@ -76,6 +76,11 @@ bool AAuraCharacterBase::IsDead_Implementation() const
 	return bDead;
 }
 
+TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontage_Implementation()
+{
+	return AttackMontage;
+}
+
 void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
 {
 	Weapon->SetSimulatePhysics(true);
