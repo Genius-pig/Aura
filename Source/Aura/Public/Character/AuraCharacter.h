@@ -22,6 +22,18 @@ public:
 	// combat interface
 	virtual int32 GetPlayerLevel() override;
 
+	virtual void InitializeDefaultAttributes() override;
+
+protected:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
 private:
 	virtual void InitAbilityActorInfo() override;
 };
