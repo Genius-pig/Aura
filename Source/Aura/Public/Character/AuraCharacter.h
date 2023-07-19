@@ -34,6 +34,10 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
+	UPROPERTY(EditAnywhere, Category="Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 private:
 	virtual void InitAbilityActorInfo() override;
+
+	void AddCharacterAbilities() const;
 };

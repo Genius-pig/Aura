@@ -20,6 +20,7 @@ public:
 	
 	AAuraProjectile();
 
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 
 	virtual void Destroyed() override;

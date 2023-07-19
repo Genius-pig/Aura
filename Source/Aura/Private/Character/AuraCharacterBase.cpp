@@ -6,7 +6,6 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "GameplayEffectTypes.h"
-#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 
@@ -131,15 +130,6 @@ void AAuraCharacterBase::ApplyEffectToSelf(const TSubclassOf<UGameplayEffect> Ga
 
 void AAuraCharacterBase::InitializeDefaultAttributes()
 {
-}
-
-void AAuraCharacterBase::AddCharacterAbilities() const
-{
-	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
-
-	if(!HasAuthority()) return;
-
-	AuraASC->AddCharacterAbilities(StartupAbilities);
 }
 
 

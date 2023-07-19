@@ -25,7 +25,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	FRotator Rotation = (ProjectileTargetLocation - Location).Rotation();
 	Rotation.Pitch = 0.f;
 	FTransform SpawnTransform;
-	Location = Location + FVector(0.f, 0.f, -100.0f);
+	// Location = Location + FVector(0.f, 0.f, -100.0f);
 	SpawnTransform.SetRotation(Rotation.Quaternion());
 	SpawnTransform.SetLocation(Location);
 	AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(ProjectileClass,
@@ -55,8 +55,14 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	ApplyAbilityTagsToGameplayEffectSpec(*GameplayEffectSpec, AbilitySpecHandle);
 	// in source code, it was be stored in a map. TMap<FGameplayTag, float>	SetByCallerTagMagnitudes.
 
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, FAuraGameplayTags::Get().Damage_Fire,
-	                                                              Damage.GetValueAtLevel(GetAbilityLevel()));
+	if (AbilityTags.HasTagExact(FAuraGameplayTags::Get().Damage_Fire))
+	{
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, FAuraGameplayTags::Get().Damage_Fire,Damage.GetValueAtLevel(GetAbilityLevel()));
+	}
+	else if(AbilityTags.HasTagExact(FAuraGameplayTags::Get().Damage_Physical))
+	{
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, FAuraGameplayTags::Get().Damage_Physical,Damage.GetValueAtLevel(GetAbilityLevel()));
+	}
 
 	Projectile->DamageEffectSpecHandle = SpecHandle;
 	Projectile->FinishSpawning(SpawnTransform);

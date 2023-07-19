@@ -101,10 +101,5 @@ protected:
 
 	virtual void InitializeDefaultAttributes();
 
-	void AddCharacterAbilities() const;
-
-	UPROPERTY(EditAnywhere, Category="Abilities")
-	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
-
 	bool bDead = false;
 };

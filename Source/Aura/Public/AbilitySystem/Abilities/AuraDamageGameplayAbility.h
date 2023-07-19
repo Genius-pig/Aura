@@ -11,6 +11,7 @@
  */
 
 struct FDamageEffectParams;
+struct FTaggedMontage;
 UCLASS()
 class AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
 {
@@ -30,6 +31,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
+
+	UFUNCTION(BlueprintPure)
+	FTaggedMontage GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages) const;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly)
