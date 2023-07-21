@@ -40,7 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass);
 
-	//Gameplay Mechanics
+	/*
+	 * Gameplay Mechanics
+	 */
 
 	// get ideas from ApplyRadialDamageWithFalloff
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
