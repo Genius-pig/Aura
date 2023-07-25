@@ -8,7 +8,7 @@
 #include "Iteraction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
-
+class UNiagaraSystem;
 class UCharacterClassInfo;
 class UGameplayAbility;
 class UGameplayEffect;
@@ -66,6 +66,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float BaseWalkSpeed = 600.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	UNiagaraSystem* BloodEffect;
+
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
 public:
 	UAttributeSet* GetAttributeSet() const
 	{
