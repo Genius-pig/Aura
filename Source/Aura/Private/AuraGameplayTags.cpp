@@ -84,19 +84,19 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Effects_FireArea = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.FireArea"), FString("Effects FireArea"));
 
 
-    // montage
-	GameplayTags.Montage_Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Montage.Attack.Weapon"),
+    // Attack tags used for montage and get weapon socket location
+	GameplayTags.Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attack.Weapon"),
 		FString("Weapon")
 		);
 
-	GameplayTags.Montage_Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Montage.Attack.RightHand"),
+	GameplayTags.Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attack.RightHand"),
 		FString("Right Hand")
 		);
 
-	GameplayTags.Montage_Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Montage.Attack.LeftHand"),
+	GameplayTags.Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attack.LeftHand"),
 		FString("Left Hand")
 		);
 }

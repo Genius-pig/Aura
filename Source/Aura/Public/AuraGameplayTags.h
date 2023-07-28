@@ -57,10 +57,10 @@ public:
 	FGameplayTag Effects_FireArea;
 	FGameplayTag Effects_HitResult;
 
-    // Montage
-	FGameplayTag Montage_Attack_Weapon;
-	FGameplayTag Montage_Attack_RightHand;
-	FGameplayTag Montage_Attack_LeftHand;
+    // Attack for montages and sounds
+	FGameplayTag Attack_Weapon;
+	FGameplayTag Attack_RightHand;
+	FGameplayTag Attack_LeftHand;
 private:
 	
 	static FAuraGameplayTags GameplayTags;

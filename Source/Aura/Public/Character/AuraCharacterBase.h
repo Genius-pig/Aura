@@ -70,6 +70,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	UNiagaraSystem* BloodEffect;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	USoundBase* DeathSound;
+
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
 public:
 	UAttributeSet* GetAttributeSet() const
@@ -89,8 +92,11 @@ public:
 	virtual bool IsDead_Implementation() const override;
 
 	virtual TArray<FTaggedMontage> GetAttackMontage_Implementation() override;
+
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	// end Combat interface
 
+	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TArray<FTaggedMontage> AttackMontage;
 

@@ -52,6 +52,4 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSoundComponent;
-private:
-	bool bHit = false;
 };
