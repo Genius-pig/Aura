@@ -104,4 +104,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	FName("Attack.Tail"),
 	FString("Tail")
 	);
+
+	GameplayTags.Attack_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attack.Summon"),
+		FString("Summon")
+	);
 }
