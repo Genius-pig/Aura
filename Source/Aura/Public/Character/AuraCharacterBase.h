@@ -41,6 +41,9 @@ protected:
 	FName RightHandSocketName;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
 
 	UPROPERTY()
@@ -56,6 +59,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* WeaponMaterialInstanceDynamic);
 
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
 
@@ -81,7 +85,7 @@ public:
 	}
 
 	// Combat interface
-	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& AttackTag) override;
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 

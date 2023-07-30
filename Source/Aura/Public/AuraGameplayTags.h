@@ -61,6 +61,7 @@ public:
 	FGameplayTag Attack_Weapon;
 	FGameplayTag Attack_RightHand;
 	FGameplayTag Attack_LeftHand;
+	FGameplayTag Attack_Tail;
 private:
 	
 	static FAuraGameplayTags GameplayTags;

@@ -99,4 +99,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Attack.LeftHand"),
 		FString("Left Hand")
 		);
+
+	GameplayTags.Attack_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Attack.Tail"),
+	FString("Tail")
+	);
 }
