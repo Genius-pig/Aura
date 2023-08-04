@@ -52,6 +52,7 @@ public:
 
 	// abilities
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Summon;
 
 	// Effect actor
 	FGameplayTag Effects_FireArea;

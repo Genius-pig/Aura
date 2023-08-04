@@ -51,14 +51,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-
-	// dissolve effect
-	UFUNCTION(BlueprintImplementableEvent)
-	void StartDissolveTimeline(UMaterialInstanceDynamic* MaterialInstanceDynamic);
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* WeaponMaterialInstanceDynamic);
-
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
@@ -77,7 +69,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	USoundBase* DeathSound;
 
-	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+	/* Minions */
+
+	int32 MinionCount = 0;
 public:
 	UAttributeSet* GetAttributeSet() const
 	{
@@ -98,6 +92,8 @@ public:
 	virtual TArray<FTaggedMontage> GetAttackMontage_Implementation() override;
 
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
+
+	virtual int32 GetMinionCount_Implementation() override;
 	// end Combat interface
 
 	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
@@ -107,8 +103,18 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
-protected:
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+
+	// dissolve effect
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* MaterialInstanceDynamic);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* WeaponMaterialInstanceDynamic);
+
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+protected:
 
 	virtual void InitAbilityActorInfo();
 	
