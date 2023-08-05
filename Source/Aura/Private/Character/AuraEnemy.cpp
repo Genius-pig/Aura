@@ -72,7 +72,7 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 	AuraAIController->RunBehaviorTree(BehaviorTree);
 
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
-	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterType!= ECharacterClass::Warrior);
+	AuraAIController->GetBlackboardComponent()->SetValueAsEnum(FName("EnemyType"), static_cast<uint8>(CharacterType));
 }
 
 void AAuraEnemy::Die(const FVector& DeathImpulse)

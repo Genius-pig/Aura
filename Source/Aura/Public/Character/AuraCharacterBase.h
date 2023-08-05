@@ -94,6 +94,8 @@ public:
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 
 	virtual int32 GetMinionCount_Implementation() override;
+
+	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
 	// end Combat interface
 
 	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
