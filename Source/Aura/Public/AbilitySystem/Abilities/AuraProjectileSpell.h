@@ -27,5 +27,5 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& AttackTag);
+	void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& AttackTag, bool bOverridePitch = false, float PitchMinus = 0.f);
 };

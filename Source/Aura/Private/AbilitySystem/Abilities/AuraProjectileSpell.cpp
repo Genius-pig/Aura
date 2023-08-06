@@ -17,14 +17,17 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& AttackTag)
+void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& AttackTag, bool bOverridePitch, float PitchMinus)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if(!bIsServer) return;
 	FVector Location = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), AttackTag);
 	FRotator Rotation = (ProjectileTargetLocation - Location).Rotation();
-	// Rotation.Pitch = 0.f;
 	FTransform SpawnTransform;
+	if(bOverridePitch)
+	{
+		Rotation.Pitch += PitchMinus;
+	}
 	SpawnTransform.SetRotation(Rotation.Quaternion());
 	SpawnTransform.SetLocation(Location);
 	AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(ProjectileClass,
