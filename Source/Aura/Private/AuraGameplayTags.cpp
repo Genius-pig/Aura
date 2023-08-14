@@ -83,6 +83,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Summon Ability Tag")
 	);
 
+	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Fire.FireBolt"),
+		FString("FireBolt Ability Tag")
+	);
+
 	// effect
 	GameplayTags.Effects_HitResult = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitResult"), FString("Hit result of effects"));
