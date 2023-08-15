@@ -30,6 +30,8 @@ protected:
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& GameplayEffectSpec, FActiveGameplayEffectHandle GameplayEffectHandle) const;
 
+	virtual void OnRep_ActivateAbilities() override;
+
 public:
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>> & StartupAbilities);
 
