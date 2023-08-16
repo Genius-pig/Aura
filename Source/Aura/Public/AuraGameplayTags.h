@@ -55,6 +55,8 @@ public:
 	FGameplayTag Abilities_Summon;
 	FGameplayTag Abilities_Fire_FireBolt;
 
+	FGameplayTag Cooldown_Fire_FireBolt;
+
 	// Effect actor
 	FGameplayTag Effects_FireArea;
 	FGameplayTag Effects_HitResult;
