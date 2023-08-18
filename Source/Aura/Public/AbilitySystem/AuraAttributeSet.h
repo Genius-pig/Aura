@@ -148,6 +148,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance Attributes")
 	FGameplayAttributeData PhysicalResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance);
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingXP;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingXP);
 
 // why i put attribute accessors in here? because attributes used to be private, I think if you have accessors for attributes, the attributes should be private.
 // but I'm wrong, if you have private attributes, then DEFINE_ATTRIBUTE_CAPTUREDEF can't be used.

@@ -35,9 +35,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributesChangedSignature OnMaxHealthChanged;
 
-	UPROPERTY(EditDefaultsOnly, Category="Character type")
-	ECharacterClass CharacterType;
-
 	virtual void Die(const FVector& DeathImpulse) override;
 
 	void HitTagChanged(const FGameplayTag CallbackTag, int32 NewCount);

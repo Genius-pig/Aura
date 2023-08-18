@@ -72,6 +72,9 @@ protected:
 	/* Minions */
 
 	int32 MinionCount = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	ECharacterClass CharacterType = ECharacterClass::Warrior;
 public:
 	UAttributeSet* GetAttributeSet() const
 	{
@@ -96,6 +99,8 @@ public:
 	virtual int32 GetMinionCount_Implementation() override;
 
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
+
+	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	// end Combat interface
 
 	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
