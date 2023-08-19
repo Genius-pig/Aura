@@ -67,6 +67,10 @@ public:
 	FGameplayTag Attack_LeftHand;
 	FGameplayTag Attack_Tail;
 	FGameplayTag Attack_Summon;
+
+	// meta attributes
+	FGameplayTag Attributes_Meta_IncomingXP;
+
 private:
 	
 	static FAuraGameplayTags GameplayTags;

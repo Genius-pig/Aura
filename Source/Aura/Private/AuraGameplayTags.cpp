@@ -103,6 +103,15 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Effects_FireArea = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.FireArea"), FString("Effects FireArea"));
 
 
+	/*
+	 * Meta Attributes
+	 */
+	
+	GameplayTags.Attributes_Meta_IncomingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.IncomingXP"),
+		FString("Incoming XP Meta Attribute")
+		);
+
     // Attack tags used for montage and get weapon socket location
 	GameplayTags.Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attack.Weapon"),

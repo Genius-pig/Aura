@@ -69,5 +69,5 @@ protected:
 private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Character Class Defaults", meta=(AllowPrivateAccess))
-	int32 Level;
+	int32 Level = 1;
 };
