@@ -25,7 +25,7 @@ public:
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
 
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel_Implementation() override;
 
 	virtual void PossessedBy(AController* NewController) override;
 
