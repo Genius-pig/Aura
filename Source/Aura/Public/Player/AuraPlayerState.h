@@ -58,10 +58,10 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UFUNCTION()
-    void OnRep_Level(int32 OldLevel);
+    void OnRep_Level(int32 OldLevel) const;
 
 	UFUNCTION()
-	void OnRep_XP(int32 OldXP);
+	void OnRep_XP(int32 OldXP) const;
 
 	FORCEINLINE int32 GetXP() const { return XP; }
 

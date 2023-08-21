@@ -30,12 +30,12 @@ UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
-void AAuraPlayerState::OnRep_Level(int32 OldLevel)
+void AAuraPlayerState::OnRep_Level(int32 OldLevel) const
 {
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
-void AAuraPlayerState::OnRep_XP(int32 OldXP)
+void AAuraPlayerState::OnRep_XP(int32 OldXP) const
 {
 	OnXPChangedDelegate.Broadcast(XP);
 }
