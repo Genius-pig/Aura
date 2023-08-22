@@ -118,9 +118,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				IPlayerInterface::Execute_AddToAttributePoints(FP.SourceCharacter, AttributePointsReward);
 				IPlayerInterface::Execute_AddToSpellPoints(FP.SourceCharacter, SpellPointsReward);
 
-				SetHealth(GetMaxHealth());
-				SetMana(GetMaxMana());
-
+				bTopOffHealth = true;
+				bTopOffMana = true;
 				IPlayerInterface::Execute_LevelUp(FP.SourceCharacter);
 			}
 			IPlayerInterface::Execute_AddToXP(FP.SourceCharacter, LocalIncomingXP);
@@ -157,8 +156,24 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	}
 }
 
+void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+{
+	Super::PostAttributeChange(Attribute, OldValue, NewValue);
+
+	if (Attribute == GetMaxHealthAttribute() && bTopOffHealth)
+	{
+		SetHealth(GetMaxHealth());
+		bTopOffHealth = false;
+	}
+	if (Attribute == GetMaxManaAttribute() && bTopOffMana)
+	{
+		SetMana(GetMaxMana());
+		bTopOffMana = false;
+	}
+}
+
 void UAuraAttributeSet::SetEffectProperties(FEffectProperties &EffectProperties,
-	const FGameplayEffectModCallbackData& Data) const
+                                            const FGameplayEffectModCallbackData& Data) const
 {
 	// source = causer of the effect, target = target of the effect (owner of the asc)
 	EffectProperties.EffectContextHandle = Data.EffectSpec.GetContext();
