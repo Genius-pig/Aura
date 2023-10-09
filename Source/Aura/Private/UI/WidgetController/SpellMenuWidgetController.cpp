@@ -7,7 +7,7 @@ void USpellMenuWidgetController::BroadcastInitialValues()
 {
 }
 
-void USpellMenuWidgetController::BindCallbackToDependencies()
+void USpellMenuWidgetController::BindCallbacksToDependencies()
 {
 	
 }

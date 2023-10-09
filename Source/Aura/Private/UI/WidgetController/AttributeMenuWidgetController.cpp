@@ -8,7 +8,7 @@
 #include "AbilitySystem/Data/AttributeInfo.h"
 #include "Player/AuraPlayerState.h"
 
-void UAttributeMenuWidgetController::BindCallbackToDependencies()
+void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
 	GetAuraPS()->OnAttributePointsChangedDelegate.AddLambda(
 		[this](int32 Points)

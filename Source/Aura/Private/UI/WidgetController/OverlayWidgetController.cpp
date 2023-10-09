@@ -13,7 +13,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 {
 }
 
-void UOverlayWidgetController::BindCallbackToDependencies()
+void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	GetAuraPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 
