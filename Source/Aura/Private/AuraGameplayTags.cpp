@@ -142,6 +142,12 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Abilities.Lightning.Electrocute"),
 		FString("Electrocute Ability Tag")
 	);
+
+	GameplayTags.Abilities_None = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.None"),
+		FString("No Ability - like the nullptr for Ability Tags")
+	);
+
 	
    /*
     * Cooldown
