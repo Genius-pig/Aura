@@ -21,8 +21,8 @@ public:
 	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(
 		AActor* TargetActor = nullptr,
 		FVector InRadialDamageOrigin = FVector::ZeroVector,
-		bool bOverrideKnockbackDirection = false,
-		FVector KnockbackDirectionOverride = FVector::ZeroVector,
+		bool bOverrideKnockBackDirection = false,
+		FVector KnockBackDirectionOverride = FVector::ZeroVector,
 		bool bOverrideDeathImpulse = false,
 		FVector DeathImpulseDirectionOverride = FVector::ZeroVector,
 		bool bOverridePitch = false,
