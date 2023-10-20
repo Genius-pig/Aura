@@ -29,6 +29,9 @@ public:
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 	
 	UFUNCTION(BlueprintCallable)
+	void GlobeDeselect();
+	
+	UFUNCTION(BlueprintCallable)
 	void SpendPointButtonPressed(const FGameplayTag& AbilityTag);
 
 private:

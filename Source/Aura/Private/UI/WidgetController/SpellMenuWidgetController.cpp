@@ -60,6 +60,11 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 	SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Description, NextLevelDescription);
 }
 
+void USpellMenuWidgetController::GlobeDeselect()
+{
+	SpellGlobeSelectedDelegate.Broadcast(false, false, FString(), FString());
+}
+
 void USpellMenuWidgetController::SpendPointButtonPressed(const FGameplayTag& AbilityTag)
 {
 	if (GetAuraASC())
