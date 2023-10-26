@@ -26,6 +26,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FCooldownChangeSignature CooldownEnd;
 
+	// https://store.algosyntax.com/tutorials/unreal-engine/ue5-multithreading-with-ublueprintasyncactionbase/
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
 	static UWaitCooldownChange* WaitForCooldownChange(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayTag& InCooldownTag);
 
