@@ -52,10 +52,16 @@ public:
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
 
+	// DeBuff
 	FGameplayTag DeBuff_Burn;
 	FGameplayTag DeBuff_Stun;
 	FGameplayTag DeBuff_Arcane;
 	FGameplayTag DeBuff_Physical;
+
+	FGameplayTag DeBuff_Chance;
+	FGameplayTag DeBuff_Damage;
+	FGameplayTag DeBuff_Duration;
+	FGameplayTag DeBuff_Frequency;
 
 	// abilities
 	FGameplayTag Abilities_Attack;

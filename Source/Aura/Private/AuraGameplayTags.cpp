@@ -220,6 +220,23 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Summon")
 	);
 
+	GameplayTags.DeBuff_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("DeBuff.Chance"),
+	FString("DeBuff Chance")
+	);
+	GameplayTags.DeBuff_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Damage"),
+		FString("DeBuff Damage")
+		);
+	GameplayTags.DeBuff_Duration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Duration"),
+		FString("DeBuff Duration")
+		);
+	GameplayTags.DeBuff_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Frequency"),
+		FString("DeBuff Frequency")
+		);
+	
 	/*
  * Map of Damage Types to DeBuffs
  */
