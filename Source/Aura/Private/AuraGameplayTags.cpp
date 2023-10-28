@@ -122,6 +122,27 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Resistance to Physical damage")
 	);
 
+	/*
+ * DeBuffs
+ */
+
+	GameplayTags.DeBuff_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Arcane"),
+		FString("DeBuff for Arcane damage")
+		);
+	GameplayTags.DeBuff_Burn = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Burn"),
+		FString("DeBuff for Fire damage")
+		);
+	GameplayTags.DeBuff_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Physical"),
+		FString("DeBuff for Physical damage")
+		);
+	GameplayTags.DeBuff_Stun = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Stun"),
+		FString("DeBuff for Lightning damage")
+		);
+
 	/*abilities*/
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.Attack"),
@@ -149,9 +170,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	);
 
 	
-   /*
-    * Cooldown
-    */
+	/*
+	 * Cooldown
+	 */
 
 	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Fire.FireBolt"),
@@ -173,7 +194,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Incoming XP Meta Attribute")
 		);
 
-    /*Attack tags used for montage and get weapon socket location*/
+	/*Attack tags used for montage and get weapon socket location*/
 	GameplayTags.Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attack.Weapon"),
 		FString("Weapon")
@@ -198,4 +219,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Attack.Summon"),
 		FString("Summon")
 	);
+
+	/*
+ * Map of Damage Types to DeBuffs
+ */
+	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Arcane, GameplayTags.DeBuff_Arcane);
 }

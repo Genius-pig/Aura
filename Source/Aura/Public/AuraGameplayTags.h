@@ -52,6 +52,11 @@ public:
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
 
+	FGameplayTag DeBuff_Burn;
+	FGameplayTag DeBuff_Stun;
+	FGameplayTag DeBuff_Arcane;
+	FGameplayTag DeBuff_Physical;
+
 	// abilities
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Summon;
@@ -85,6 +90,9 @@ public:
 
 	// meta attributes
 	FGameplayTag Attributes_Meta_IncomingXP;
+
+	
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToDeBuffs;
 
 private:
 	
