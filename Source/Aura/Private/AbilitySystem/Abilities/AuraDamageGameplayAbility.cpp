@@ -12,8 +12,19 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
                                                                                         FVector InRadialDamageOrigin, bool bOverrideKnockBackDirection, FVector KnockBackDirectionOverride,
                                                                                         bool bOverrideDeathImpulse, FVector DeathImpulseDirectionOverride, bool bOverridePitch, float PitchOverride) const
 {
-	FDamageEffectParams Param;
-	return Param;
+	FDamageEffectParams Params;
+	Params.WorldContextObject = GetAvatarActorFromActorInfo();
+	Params.DamageGameplayEffectClass = DamageEffectClass;
+	Params.SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
+	Params.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+	Params.AbilityLevel = GetAbilityLevel();
+	Params.DamageType = DamageType;
+	Params.DeBuffChance = DeBuffChance;
+	Params.DeBuffDamage = DeBuffDamage;
+	Params.DeBuffDuration = DeBuffDuration;
+	Params.DeBuffFrequency = DeBuffFrequency;
+	return Params;
 }
 
 void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)

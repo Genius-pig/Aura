@@ -3,7 +3,9 @@
 
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AuraAbilityTypes.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Game/AuraGameModeBase.h"
 #include "Iteraction/CombatInterface.h"
@@ -156,6 +158,25 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(const AActor* FirstActor, const AAct
 		return !bFriends;
 	}
 	return false;
+}
+
+FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams)
+{
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+
+	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
+
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Chance, DamageEffectParams.DeBuffChance);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Damage, DamageEffectParams.DeBuffDamage);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Duration, DamageEffectParams.DeBuffDuration);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Frequency, DamageEffectParams.DeBuffFrequency);
+
+	DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+	return EffectContextHandle;
 }
 
 bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
