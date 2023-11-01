@@ -39,12 +39,7 @@ void AAuraProjectile::Destroyed()
 {
 	if(!HasAuthority())
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation(), FRotator::ZeroRotator);
-		if(LoopingSoundComponent)
-		{
-			LoopingSoundComponent->Stop();
-		}
+		OnHit();
 	}
 	Super::Destroyed();
 }
@@ -57,18 +52,21 @@ void AAuraProjectile::BeginPlay()
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
 }
 
-void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AAuraProjectile::OnHit() const
 {
-	AActor* EffectCauser;
-	if(DamageEffectSpecHandle.Data.IsValid())
+	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation(), FRotator::ZeroRotator);
+	//In dedicated server mode. if these codes executed in the client, LoopingSoundComponent would be null.
+	if(LoopingSoundComponent)
 	{
-		EffectCauser = DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser();
+		LoopingSoundComponent->Stop();
 	}
-	else
-	{
-		return;
-	}
+}
+
+void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	const AActor* EffectCauser = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 	if(EffectCauser == OtherActor)
 	{
 		return;
@@ -79,16 +77,11 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	}
 	if(HasAuthority())
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation(), FRotator::ZeroRotator);
-		//In dedicated server mode. if these codes executed in the client, LoopingSoundComponent would be null.
-		if(LoopingSoundComponent)
-		{
-			LoopingSoundComponent->Stop();
-		}
+		OnHit();
 		if(UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
 		Destroy();
 	} 

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameplayAbilitySpecHandle.h"
 #include "GameplayEffectTypes.h"
 #include "AuraAbilityTypes.generated.h"
 
@@ -23,6 +24,9 @@ struct FDamageEffectParams
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> TargetAbilitySystemComponent;
 
+	UPROPERTY()
+	FGameplayAbilitySpecHandle SourceAbilitySpecHandle;
+	
 	UPROPERTY(BlueprintReadWrite)
 	float BaseDamage = 0.f;
 

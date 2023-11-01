@@ -41,7 +41,11 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	FScalableFloat Damage;
-	
+
+public:
+	FScalableFloat GetDamage() const;
+
+protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DeBuffChance = 20.f;
 

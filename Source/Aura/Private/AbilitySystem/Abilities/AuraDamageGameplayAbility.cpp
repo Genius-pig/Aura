@@ -24,6 +24,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	Params.DeBuffDamage = DeBuffDamage;
 	Params.DeBuffDuration = DeBuffDuration;
 	Params.DeBuffFrequency = DeBuffFrequency;
+	Params.SourceAbilitySpecHandle = this->GetCurrentAbilitySpecHandle();
 	return Params;
 }
 
@@ -45,4 +46,9 @@ FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedMontageFromArray(
 	}
 
 	return FTaggedMontage();
+}
+
+FScalableFloat UAuraDamageGameplayAbility::GetDamage() const
+{
+	return Damage;
 }
