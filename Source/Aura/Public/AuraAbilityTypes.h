@@ -81,6 +81,12 @@ public:
 	bool IsCriticalHit() const {return bIsCriticalHit;}
 	bool IsBlockedHit() const {return  bIsBlockedHit;}
 
+	bool IsSuccessfulDeBuff() const { return bIsSuccessfulDeBuff; }
+	float GetDeBuffDamage() const { return DeBuffDamage; }
+	float GetDeBuffDuration() const { return DeBuffDuration; }
+	float GetDeBuffFrequency() const { return DeBuffFrequency; }
+	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
+
 	void SetIsCriticalHit(const bool bInIsCriticalHit) {bIsCriticalHit = bInIsCriticalHit;}
 	void SetIsBlockedHit(const bool bInIsBlockedHit) {bIsBlockedHit = bInIsBlockedHit;}
 
@@ -95,6 +101,20 @@ protected:
 
 	UPROPERTY()
 	bool bIsBlockedHit = false;
+
+	UPROPERTY()
+	bool bIsSuccessfulDeBuff = false;
+
+	UPROPERTY()
+	float DeBuffDamage = 0.f;
+
+	UPROPERTY()
+	float DeBuffDuration = 0.f;
+
+	UPROPERTY()
+	float DeBuffFrequency = 0.f;
+
+	TSharedPtr<FGameplayTag> DamageType;
 };
 
 template<>
