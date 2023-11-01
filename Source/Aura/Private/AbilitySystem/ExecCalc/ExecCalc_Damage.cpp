@@ -99,6 +99,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	if(SourceTagContainer->HasTagExact(FAuraGameplayTags::Get().Damage_Fire))
 	{
+		DetermineDeBuff(ExecutionParams, Spec, EvaluateParameters, FAuraGameplayTags::Get().Damage_Fire, FAuraGameplayTags::Get().Attributes_Resistance_Fire, DamageStatics().FireResistanceDef);
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage_Fire);
 		float TargetFireResistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().FireResistanceDef, EvaluateParameters, TargetFireResistance);
@@ -107,6 +108,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 	else if (SourceTagContainer->HasTagExact(FAuraGameplayTags::Get().Damage_Physical))
 	{
+		DetermineDeBuff(ExecutionParams, Spec, EvaluateParameters, FAuraGameplayTags::Get().Damage_Physical, FAuraGameplayTags::Get().Attributes_Resistance_Physical, DamageStatics().PhysicalResistanceDef);
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage_Physical);
 		float TargetPhysicalResistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().PhysicalResistanceDef, EvaluateParameters, TargetPhysicalResistance);
@@ -185,4 +187,27 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+}
+
+void UExecCalc_Damage::DetermineDeBuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	const FGameplayEffectSpec& Spec, const FAggregatorEvaluateParameters& EvaluationParameters, const FGameplayTag DamageType, const FGameplayTag& ResistanceTag, const FGameplayEffectAttributeCaptureDefinition& InCaptureDef) const
+{
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	const float TypeDamage = Spec.GetSetByCallerMagnitude(DamageType, false, -1.f);
+	if (TypeDamage > -.5f) // .5 padding for floating point [im]precision
+	{
+		// Determine if there was a successful deBuff
+		const float SourceDeBuffChance = Spec.GetSetByCallerMagnitude(GameplayTags.DeBuff_Chance, false, -1.f);
+
+		float TargetDeBuffResistance = 0.f;
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(InCaptureDef, EvaluationParameters,
+		                                                           TargetDeBuffResistance);
+		TargetDeBuffResistance = FMath::Max<float>(TargetDeBuffResistance, 0.f);
+		const float EffectiveDeBuffChance = SourceDeBuffChance * (100 - TargetDeBuffResistance) / 100.f;
+		const bool bDeBuff = FMath::RandRange(1, 100) < EffectiveDeBuffChance;
+		if (bDeBuff)
+		{
+			//TODO: What do we do?
+		}
+	}
 }

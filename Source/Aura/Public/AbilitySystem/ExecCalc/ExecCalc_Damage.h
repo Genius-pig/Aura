@@ -18,4 +18,11 @@ public:
 
 	UExecCalc_Damage();
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+
+	void DetermineDeBuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+					 const FGameplayEffectSpec& Spec,
+					 const FAggregatorEvaluateParameters& EvaluationParameters,
+					 const FGameplayTag DamageType,
+					 const FGameplayTag& ResistanceTag,
+					 const FGameplayEffectAttributeCaptureDefinition& InCaptureDef) const;
 };

@@ -96,10 +96,6 @@ public:
 
 	// meta attributes
 	FGameplayTag Attributes_Meta_IncomingXP;
-
-	
-	TMap<FGameplayTag, FGameplayTag> DamageTypesToDeBuffs;
-
 private:
 	
 	static FAuraGameplayTags GameplayTags;

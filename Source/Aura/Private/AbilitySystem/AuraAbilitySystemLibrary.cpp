@@ -170,19 +170,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
 	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
 	FGameplayEffectSpec* GameplayEffectSpec = SpecHandle.Data.Get();
-	FGameplayAbilitySpec* AbilitySpecHandle = DamageEffectParams.SourceAbilitySystemComponent->FindAbilitySpecFromHandle(DamageEffectParams.SourceAbilitySpecHandle);
-	const UAuraDamageGameplayAbility* DamageGameplayAbility = Cast<UAuraDamageGameplayAbility>(AbilitySpecHandle->Ability);
-	DamageGameplayAbility->ApplyAbilityTagsToGameplayEffectSpec(*GameplayEffectSpec, AbilitySpecHandle);
-	// in source code, it was be stored in a map. TMap<FGameplayTag, float>	SetByCallerTagMagnitudes.
-	const FScalableFloat Damage = DamageGameplayAbility->GetDamage();
-	if (DamageGameplayAbility->AbilityTags.HasTagExact(FAuraGameplayTags::Get().Damage_Fire))
-	{
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, FAuraGameplayTags::Get().Damage_Fire,Damage.GetValueAtLevel(DamageGameplayAbility->GetAbilityLevel()));
-	}
-	else if(DamageGameplayAbility->AbilityTags.HasTagExact(FAuraGameplayTags::Get().Damage_Physical))
-	{
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, FAuraGameplayTags::Get().Damage_Physical,Damage.GetValueAtLevel(DamageGameplayAbility->GetAbilityLevel()));
-	}
+	GameplayEffectSpec->CapturedSourceTags.GetSpecTags().AddTag(DamageEffectParams.DamageType);
 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Chance, DamageEffectParams.DeBuffChance);
@@ -190,7 +178,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Duration, DamageEffectParams.DeBuffDuration);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.DeBuff_Frequency, DamageEffectParams.DeBuffFrequency);
 
-	DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+	DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*GameplayEffectSpec);
 	return EffectContextHandle;
 }
 

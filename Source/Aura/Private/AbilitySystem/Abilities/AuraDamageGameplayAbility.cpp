@@ -24,7 +24,6 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	Params.DeBuffDamage = DeBuffDamage;
 	Params.DeBuffDuration = DeBuffDuration;
 	Params.DeBuffFrequency = DeBuffFrequency;
-	Params.SourceAbilitySpecHandle = this->GetCurrentAbilitySpecHandle();
 	return Params;
 }
 

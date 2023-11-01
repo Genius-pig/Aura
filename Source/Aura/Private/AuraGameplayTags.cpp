@@ -236,9 +236,4 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("DeBuff.Frequency"),
 		FString("DeBuff Frequency")
 		);
-	
-	/*
- * Map of Damage Types to DeBuffs
- */
-	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Arcane, GameplayTags.DeBuff_Arcane);
 }
