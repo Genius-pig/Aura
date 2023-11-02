@@ -85,7 +85,7 @@ public:
 
 	// Effect actor
 	FGameplayTag Effects_FireArea;
-	FGameplayTag Effects_HitResult;
+	FGameplayTag Effects_HitReact;
 
     // Attack for montages and sounds
 	FGameplayTag Attack_Weapon;

@@ -207,7 +207,18 @@ void UExecCalc_Damage::DetermineDeBuff(const FGameplayEffectCustomExecutionParam
 		const bool bDeBuff = FMath::RandRange(1, 100) < EffectiveDeBuffChance;
 		if (bDeBuff)
 		{
-			//TODO: What do we do?
+			FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+
+			UAuraAbilitySystemLibrary::SetIsSuccessfulDeBuff(ContextHandle, true);
+			UAuraAbilitySystemLibrary::SetDamageType(ContextHandle, DamageType);
+
+			const float DeBuffDamage = Spec.GetSetByCallerMagnitude(GameplayTags.DeBuff_Damage, false, -1.f);
+			const float DeBuffDuration = Spec.GetSetByCallerMagnitude(GameplayTags.DeBuff_Duration, false, -1.f);
+			const float DeBuffFrequency = Spec.GetSetByCallerMagnitude(GameplayTags.DeBuff_Frequency, false, -1.f);
+
+			UAuraAbilitySystemLibrary::SetDeBuffDamage(ContextHandle, DeBuffDamage);
+			UAuraAbilitySystemLibrary::SetDeBuffDuration(ContextHandle, DeBuffDuration);
+			UAuraAbilitySystemLibrary::SetDeBuffFrequency(ContextHandle, DeBuffFrequency);
 		}
 	}
 }

@@ -89,6 +89,11 @@ public:
 
 	void SetIsCriticalHit(const bool bInIsCriticalHit) {bIsCriticalHit = bInIsCriticalHit;}
 	void SetIsBlockedHit(const bool bInIsBlockedHit) {bIsBlockedHit = bInIsBlockedHit;}
+	void SetIsSuccessfulDeBuff(const bool bInIsDeBuff) { bIsSuccessfulDeBuff = bInIsDeBuff; }
+	void SetDeBuffDamage(const float InDamage) { DeBuffDamage = InDamage; }
+	void SetDeBuffDuration(const float InDuration) { DeBuffDuration = InDuration; }
+	void SetDeBuffFrequency(const float InFrequency) { DeBuffFrequency = InFrequency; }
+	void SetDamageType(const TSharedPtr<FGameplayTag>& InDamageType) { DamageType = InDamageType; }
 
 	virtual UScriptStruct* GetScriptStruct() const override;
 	
