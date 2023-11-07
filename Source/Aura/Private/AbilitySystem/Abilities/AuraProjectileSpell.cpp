@@ -20,7 +20,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if(!bIsServer) return;
-	FVector Location = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), AttackTag);
+	const FVector Location = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), AttackTag);
 	FRotator Rotation = (ProjectileTargetLocation - Location).Rotation();
 	FTransform SpawnTransform;
 	if(bOverridePitch)
