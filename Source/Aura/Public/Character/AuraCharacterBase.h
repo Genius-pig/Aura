@@ -8,6 +8,7 @@
 #include "Iteraction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UDeBuffNiagaraComponent;
 class UNiagaraSystem;
 class UCharacterClassInfo;
 class UGameplayAbility;
@@ -75,6 +76,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	ECharacterClass CharacterType = ECharacterClass::Warrior;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDeBuffNiagaraComponent> BurnDeBuffComponent;
 public:
 	UAttributeSet* GetAttributeSet() const
 	{
@@ -101,7 +105,11 @@ public:
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
 
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
+
+	virtual FOnASCRegistered GetOnASCRegisteredDelegate() override;
 	// end Combat interface
+
+	FOnASCRegistered OnAscRegistered;
 
 	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
 	UPROPERTY(EditAnywhere, Category="Combat")
