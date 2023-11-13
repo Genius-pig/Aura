@@ -87,6 +87,7 @@ public:
 	float GetDeBuffFrequency() const { return DeBuffFrequency; }
 	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 	FVector GetDeathImpulse() const { return DeathImpulse; }
+	FVector GetKnockBackForce() const { return KnockBackForce; }
 
 	void SetIsCriticalHit(const bool bInIsCriticalHit) {bIsCriticalHit = bInIsCriticalHit;}
 	void SetIsBlockedHit(const bool bInIsBlockedHit) {bIsBlockedHit = bInIsBlockedHit;}
@@ -96,6 +97,7 @@ public:
 	void SetDeBuffFrequency(const float InFrequency) { DeBuffFrequency = InFrequency; }
 	void SetDamageType(const TSharedPtr<FGameplayTag>& InDamageType) { DamageType = InDamageType; }
 	void SetDeathImpulse(const FVector& InImpulse) { DeathImpulse = InImpulse; }
+	void SetKnockBackForce(const FVector& InForce) { KnockBackForce = InForce; }
 
 	virtual UScriptStruct* GetScriptStruct() const override;
 	
@@ -125,6 +127,9 @@ protected:
 
 	UPROPERTY()
 	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY()
+	FVector KnockBackForce = FVector::ZeroVector;
 };
 
 template<>
