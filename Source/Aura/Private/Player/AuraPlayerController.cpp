@@ -158,6 +158,7 @@ void AAuraPlayerController::AbilityInputTagPressed(const FGameplayTag InputTag)
 		// bAutoRunning is false when you just press LMB button
 		bAutoRunning = false;
 	}
+	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)

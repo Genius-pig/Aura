@@ -65,6 +65,7 @@ void AAuraProjectile::OnHit() const
 	if(LoopingSoundComponent)
 	{
 		LoopingSoundComponent->Stop();
+		LoopingSoundComponent->DestroyComponent();
 	}
 }
 
