@@ -181,7 +181,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 	/*effect*/
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Effects.HitResult"), FString("Hit result of effects"));
+		FName("Effects.HitReact"), FString("Hit result of effects"));
 	GameplayTags.Effects_FireArea = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.FireArea"), FString("Effects FireArea"));
 
 
