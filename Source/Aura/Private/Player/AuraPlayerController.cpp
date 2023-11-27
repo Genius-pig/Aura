@@ -68,7 +68,7 @@ void AAuraPlayerController::SetupInputComponent()
 	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 
 	// bind actions in InputConfig with functions
-	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
+	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased);
 }
 
 void AAuraPlayerController::PlayerTick(float DeltaTime)
@@ -174,7 +174,38 @@ void AAuraPlayerController::AbilityInputTagPressed(const FGameplayTag InputTag)
 		// bAutoRunning is false when you just press LMB button
 		bAutoRunning = false;
 	}
-	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
+	else
+	{
+		if(GetASC())
+		{
+			GetASC()->AbilityInputTagPressed(InputTag);
+		}
+		return;
+	}
+
+	if(bTargeting || bShiftKeyDown)
+	{
+		if(GetASC())
+		{
+			GetASC()->AbilityInputTagPressed(InputTag);
+		}
+	}
+	else
+	{
+		FollowTime += GetWorld()->GetDeltaSeconds();
+
+		if(CursorResult.bBlockingHit)
+		{
+			CachedDestination = CursorResult.ImpactPoint;
+		}
+
+		if(APawn* ControlledPawn = GetPawn())
+		{
+			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation());
+			ControlledPawn->AddMovementInput(WorldDirection);
+		}
+	}
+	// if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
@@ -211,10 +242,10 @@ void AAuraPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
 					CachedDestination = Path->PathPoints[Path->PathPoints.Num() - 1];
 				}
 				bAutoRunning = true;
-				if (GetASC() && !GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
-				{
-					UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
-				}
+			}
+			if (GetASC() && !GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
+			{
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 			}
 			bTargeting = false;
 		}
@@ -227,44 +258,5 @@ void AAuraPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
 	
 }
 
-
-void AAuraPlayerController::AbilityInputTagHeld(const FGameplayTag InputTag)
-{
-	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputHeld))
-	{
-		return;
-	}
-	if(!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
-	{
-		if(GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
-		return;
-	}
-	if(bTargeting || bShiftKeyDown)
-	{
-		if(GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
-	}
-	else
-	{
-		FollowTime += GetWorld()->GetDeltaSeconds();
-
-		if(CursorResult.bBlockingHit)
-		{
-			CachedDestination = CursorResult.ImpactPoint;
-		}
-
-		if(APawn* ControlledPawn = GetPawn())
-		{
-			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation());
-			ControlledPawn->AddMovementInput(WorldDirection);
-		}
-		
-	}
-}
 
 

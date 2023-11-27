@@ -61,7 +61,6 @@ private:
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
-	void AbilityInputTagHeld(FGameplayTag InputTag);
 	
 
 	IEnemyInterface* LastActor;

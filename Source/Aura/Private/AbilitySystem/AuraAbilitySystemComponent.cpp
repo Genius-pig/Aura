@@ -75,25 +75,13 @@ void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Inp
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
 		{
 			AbilitySpecInputPressed(AbilitySpec);
-			if (AbilitySpec.IsActive())
-			{
-				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
-			}
-		}
-	}
-}
-
-void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
-{
-	if(!InputTag.IsValid()) return;
-	for(FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
-	{
-		if(AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
-		{
-			AbilitySpecInputPressed(AbilitySpec);
 			if(!AbilitySpec.IsActive())
 			{
 				TryActivateAbility(AbilitySpec.Handle);
+			}
+			if (AbilitySpec.IsActive())
+			{
+				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
 			}
 		}
 	}
@@ -227,14 +215,14 @@ void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const
 	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag, AbilityLevel);
 }
 
-void UAuraAbilitySystemComponent::ClientEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Status,
-	const FGameplayTag& Slot, const FGameplayTag& PreviousSlot) const
+void UAuraAbilitySystemComponent::ClientEquipAbility_Implementation(const FGameplayTag& AbilityTag,
+	const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot) const
 {
 	AbilityEquipped.Broadcast(AbilityTag, Status, Slot, PreviousSlot);
 }
 
 bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription,
-	FString& OutNextLevelDescription)
+                                                              FString& OutNextLevelDescription)
 {
 	if (const FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
 	{
