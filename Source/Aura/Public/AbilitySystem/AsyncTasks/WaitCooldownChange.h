@@ -10,7 +10,7 @@
 struct FActiveGameplayEffectHandle;
 struct FGameplayEffectSpec;
 class UAbilitySystemComponent;
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCooldownChangeSignature, float, TimeRemaining);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCooldownChangeSignature, float, TimeRemaining, FGameplayTag, InputTag);
 /**
  * 
  */
@@ -28,7 +28,7 @@ public:
 
 	// https://store.algosyntax.com/tutorials/unreal-engine/ue5-multithreading-with-ublueprintasyncactionbase/
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
-	static UWaitCooldownChange* WaitForCooldownChange(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayTag& InCooldownTag);
+	static UWaitCooldownChange* WaitForCooldownChange(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayTag& InCooldownTag, const FGameplayTag& InputTag);
 
 	UFUNCTION(BlueprintCallable)
 	void EndTask();
@@ -37,6 +37,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> ASC;
+
+	FGameplayTag InputTag;
 
 	FGameplayTag CooldownTag;
 

@@ -114,6 +114,15 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().PhysicalResistanceDef, EvaluateParameters, TargetPhysicalResistance);
 		DamageTypeValue *= ( 100.f - TargetPhysicalResistance ) / 100.f;
 		Damage += DamageTypeValue;
+	}
+	else if (SourceTagContainer->HasTagExact(FAuraGameplayTags::Get().Damage_Lightning))
+	{
+		DetermineDeBuff(ExecutionParams, Spec, EvaluateParameters, FAuraGameplayTags::Get().Damage_Lightning, FAuraGameplayTags::Get().Attributes_Resistance_Lightning, DamageStatics().LightningResistanceDef);
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage_Lightning);
+		float TargetLightningResistance = 0.f;
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().PhysicalResistanceDef, EvaluateParameters, TargetLightningResistance);
+		DamageTypeValue *= ( 100.f - TargetLightningResistance ) / 100.f;
+		Damage += DamageTypeValue;
 	} 
 
 	//get Aura Effect Context handle

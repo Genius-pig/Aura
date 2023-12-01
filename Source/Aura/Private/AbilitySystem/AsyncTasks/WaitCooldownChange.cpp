@@ -6,12 +6,12 @@
 #include "AbilitySystemComponent.h"
 
 UWaitCooldownChange* UWaitCooldownChange::WaitForCooldownChange(UAbilitySystemComponent* AbilitySystemComponent,
-                                                                const FGameplayTag& InCooldownTag)
+                                                                const FGameplayTag& InCooldownTag, const FGameplayTag& InputTag)
 {
 	UWaitCooldownChange* WaitCooldownChange = NewObject<UWaitCooldownChange>();
 	WaitCooldownChange->ASC = AbilitySystemComponent;
 	WaitCooldownChange->CooldownTag = InCooldownTag;
-
+	WaitCooldownChange->InputTag = InputTag;
 	
 	if (!IsValid(AbilitySystemComponent) || !InCooldownTag.IsValid())
 	{
@@ -45,7 +45,7 @@ void UWaitCooldownChange::CooldownTagChanged(const FGameplayTag InCooldownTag, i
 {
 	if (NewCount == 0)
 	{
-		CooldownEnd.Broadcast(0.f);
+		CooldownEnd.Broadcast(0.f, InputTag);
 	}
 }
 
@@ -73,7 +73,7 @@ void UWaitCooldownChange::OnActiveEffectAdded(UAbilitySystemComponent* TargetASC
 				}
 			}
 
-			CooldownStart.Broadcast(TimeRemaining);
+			CooldownStart.Broadcast(TimeRemaining, InputTag);
 		}
 	}
 }

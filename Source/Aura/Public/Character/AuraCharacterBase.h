@@ -92,6 +92,8 @@ public:
 
 	virtual void Die(const FVector& DeathImpulse) override;
 
+	virtual FOnDeathSignature& GetOnDeathDelegate() override;
+
 	virtual AActor* GetAvatar_Implementation() override;
 
 	virtual bool IsDead_Implementation() const override;
@@ -112,6 +114,7 @@ public:
 	// end Combat interface
 
 	FOnASCRegistered OnAscRegistered;
+	FOnDeathSignature OnDeathDelegate;
 
 	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
 	UPROPERTY(EditAnywhere, Category="Combat")
