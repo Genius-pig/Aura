@@ -80,6 +80,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDeBuffNiagaraComponent> BurnDeBuffComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDeBuffNiagaraComponent> StunDeBuffComponent;
 public:
 	UAttributeSet* GetAttributeSet() const
 	{
@@ -109,9 +112,13 @@ public:
 
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
 
-	virtual FOnASCRegistered GetOnASCRegisteredDelegate() override;
+	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() override;
 
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
+
+	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
+
+	virtual bool IsBeingShocked_Implementation() const override;
 	// end Combat interface
 
 	FOnASCRegistered OnAscRegistered;
@@ -126,6 +133,9 @@ public:
 
 	UPROPERTY(ReplicatedUsing=OnRep_Burned, BlueprintReadOnly)
 	bool bIsBurned = false;
+	
+	UPROPERTY(Replicated, BlueprintReadOnly)
+	bool bIsBeingShocked = false;
 
 	UFUNCTION()
 	virtual void OnRep_Stunned();

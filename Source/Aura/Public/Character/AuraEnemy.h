@@ -48,6 +48,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
 
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
+
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 
 	virtual AActor* GetCombatTarget_Implementation() const override;

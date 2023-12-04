@@ -285,9 +285,12 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 
 		if(NewHealth > 0)
 		{
-			FGameplayTagContainer Container;
-			Container.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
-			Props.TargetASC->TryActivateAbilitiesByTag(Container);
+			if (Props.TargetCharacter->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingShocked(Props.TargetCharacter))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 		} else
 		{
 			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter);
@@ -367,7 +370,14 @@ void UAuraAttributeSet::DeBuff(const FEffectProperties& Props)
 	Effect->Period = DeBuffFrequency;
 	Effect->DurationMagnitude = FScalableFloat(DeBuffDuration);
 
-	Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.DamageTypesToDeBuffs[DamageType]);
+	const FGameplayTag DeBuffTag = GameplayTags.DamageTypesToDeBuffs[DamageType];
+	Effect->InheritableOwnedTagsContainer.AddTag(DeBuffTag);
+	if (DeBuffTag.MatchesTagExact(GameplayTags.DeBuff_Stun))
+	{
+		Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.Player_Block_CursorTrace);
+		Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.Player_Block_InputPressed);
+		Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.Player_Block_InputReleased);
+	}
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;

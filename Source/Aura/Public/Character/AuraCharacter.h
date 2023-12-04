@@ -51,6 +51,9 @@ public:
 
 	virtual void InitializeDefaultAttributes() override;
 
+	virtual void OnRep_Stunned() override;
+	virtual void OnRep_Burned() override;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
