@@ -100,6 +100,10 @@ public:
 	FGameplayTag Attack_Tail;
 	FGameplayTag Attack_Summon;
 
+	FGameplayTag Abilities_Passive_HaloOfProtection;
+	FGameplayTag Abilities_Passive_LifeSiphon;
+	FGameplayTag Abilities_Passive_ManaSiphon;
+
 	// meta attributes
 	FGameplayTag Attributes_Meta_IncomingXP;
 	
