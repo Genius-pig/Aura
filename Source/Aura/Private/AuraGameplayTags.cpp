@@ -164,6 +164,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Electrocute Ability Tag")
 	);
 
+	GameplayTags.Abilities_Arcane_ArcaneShards = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Arcane.ArcaneShards"),
+		FString("Arcane Shards Ability Tag")
+	);
+	
 	GameplayTags.Abilities_None = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.None"),
 		FString("No Ability - like the nullptr for Ability Tags")
