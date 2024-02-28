@@ -271,8 +271,12 @@ void AAuraPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
 				if(Path->PathPoints.Num() > 0)
 				{
 					CachedDestination = Path->PathPoints[Path->PathPoints.Num() - 1];
+					bAutoRunning = true;
 				}
-				bAutoRunning = true;
+				else
+				{
+					bAutoRunning = false;
+				}
 			}
 			if (GetASC() && !GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
 			{
