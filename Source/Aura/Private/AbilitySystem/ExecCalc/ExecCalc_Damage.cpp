@@ -9,6 +9,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Iteraction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 //FAuraDamageStatics is used for getting Attribute value
 struct FAuraDamageStatics
@@ -82,6 +83,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	FAggregatorEvaluateParameters EvaluateParameters;
 	EvaluateParameters.SourceTags = SourceTagContainer;
 	EvaluateParameters.TargetTags = TargetTagContainer;
+	//get Aura Effect Context handle
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
 	int32 SourcePlayerLevel = 1;
 	int32 TargetPlayerLevel = 1;
@@ -120,13 +123,48 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		DetermineDeBuff(ExecutionParams, Spec, EvaluateParameters, FAuraGameplayTags::Get().Damage_Lightning, FAuraGameplayTags::Get().Attributes_Resistance_Lightning, DamageStatics().LightningResistanceDef);
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage_Lightning);
 		float TargetLightningResistance = 0.f;
-		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().PhysicalResistanceDef, EvaluateParameters, TargetLightningResistance);
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().LightningResistanceDef, EvaluateParameters, TargetLightningResistance);
 		DamageTypeValue *= ( 100.f - TargetLightningResistance ) / 100.f;
 		Damage += DamageTypeValue;
-	} 
+	}
+	else if (SourceTagContainer->HasTagExact(FAuraGameplayTags::Get().Damage_Arcane))
+	{
+		DetermineDeBuff(ExecutionParams, Spec, EvaluateParameters, FAuraGameplayTags::Get().Damage_Arcane, FAuraGameplayTags::Get().Attributes_Resistance_Arcane, DamageStatics().ArcaneResistanceDef);
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage_Arcane);
+		float TargetArcaneResistance = 0.f;
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArcaneResistanceDef, EvaluateParameters, TargetArcaneResistance);
+		DamageTypeValue *= ( 100.f - TargetArcaneResistance ) / 100.f;
 
-	//get Aura Effect Context handle
-	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+		if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+		{
+			// 1. override TakeDamage in AuraCharacterBase. *
+			// 2. create delegate OnDamageDelegate, broadcast damage received in TakeDamage *
+			// 3. Bind lambda to OnDamageDelegate on the Victim here. *
+			// 4. Call UGameplayStatics::ApplyRadialDamageWithFalloff to cause damage (this will result in TakeDamage being called
+			//		on the Victim, which will then broadcast OnDamageDelegate)
+			// 5. In Lambda, set DamageTypeValue to the damage received from the broadcast *
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CombatInterface->GetOnDamageSignature().AddLambda([&](float DamageAmount)
+				{
+					DamageTypeValue = DamageAmount;
+				});
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar,
+				nullptr);
+			Damage += DamageTypeValue;
+		}
+	}
 
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 	

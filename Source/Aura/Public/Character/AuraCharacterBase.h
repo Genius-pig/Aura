@@ -28,6 +28,7 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
 
@@ -134,10 +135,13 @@ public:
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
 
 	virtual bool IsBeingShocked_Implementation() const override;
+
+	virtual FOnDamageSignature& GetOnDamageSignature() override;
 	// end Combat interface
 
 	FOnASCRegistered OnAscRegistered;
 	FOnDeathSignature OnDeathDelegate;
+	FOnDamageSignature OnDamageDelegate;
 
 	// AttackMontage should be AttackMontages. But I don't want to change it because the renaming action would break assets' links.
 	UPROPERTY(EditAnywhere, Category="Combat")
