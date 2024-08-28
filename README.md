@@ -4,6 +4,8 @@ A little different from his.
 
 All copyrights to him. But if you buy his course, you call use these assets commercially.
 
+## After class question
+
 ### 25 Spell Menu
 
 #### question 1
@@ -35,4 +37,8 @@ So check out `GE_Cost_FireBolt`.
 > To get the Cooldown from the Ability itself:
 
 Check out `GE_Cooldown_FireBolt`.
+
+## 一些可能有用知识点
+
+1. 394 Traveling to Saved Map 有可能有修复字体超出空间的方法
 
