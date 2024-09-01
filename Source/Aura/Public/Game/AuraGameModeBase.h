@@ -27,7 +27,7 @@ public:
 
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& SlotName, int32 SlotIndex) const;
 
-	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
+	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex) const;
 	
 	void TravelToMap(UMVVM_LoadSlot* Slot);
 
@@ -41,6 +41,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> DefaultMap;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName DefaultPlayerStartTag;
 
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
